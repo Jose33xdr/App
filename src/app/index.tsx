@@ -25,8 +25,8 @@ const CREDENCIALES_ADMIN = {
 };
 
 export default function Login() {
-  const [correo, setCorreo] = useState(CREDENCIALES_CLIENTE.correo);
-  const [password, setPassword] = useState(CREDENCIALES_CLIENTE.password);
+  const [correo, setCorreo] = useState('');
+  const [password, setPassword] = useState('');
   const [mostrarPassword, setMostrarPassword] = useState(false);
   const { iniciarSesion } = useSesion();
 
