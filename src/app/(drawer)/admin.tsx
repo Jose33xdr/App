@@ -18,6 +18,7 @@ import type { DatosProducto, DatosSeccion } from '../../services/tipos';
 import { formatoPrecio } from '../../utils/formato';
 import ProductoForm from '../../components/ProductoForm';
 import SeccionForm from '../../components/SeccionForm';
+import Button, { SeccionTitulo } from '../../components/ui/Button';
 
 type Pestana = 'productos' | 'secciones';
 
@@ -133,11 +134,12 @@ export default function Admin() {
   };
 
   return (
-    <View className="flex-1 bg-neutral-50 p-5">
+    <View className="flex-1 bg-white p-5">
+      <SeccionTitulo texto="MiniStore" />
       <Text className="text-2xl font-bold tracking-tight text-neutral-900">
         Panel de control
       </Text>
-      <Text className="mt-1 mb-5 text-sm text-neutral-500">
+      <Text className="mt-1 mb-5 text-sm text-neutral-400">
         Gestiona el catálogo público completo
       </Text>
 

@@ -11,7 +11,7 @@ export default function ProductCard({ producto }: { producto: Producto }) {
   return (
     <TouchableOpacity
       className="mb-3 rounded-2xl border border-neutral-200 bg-white p-4"
-      activeOpacity={0.7}
+      activeOpacity={0.8}
       onPress={() => router.push(`/producto/${producto.id}`)}
     >
       <ProductoFila producto={producto} />

@@ -4,12 +4,13 @@ import {
   Text,
   FlatList,
   TouchableOpacity,
-  Alert,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { router } from 'expo-router';
 
 import { useCarrito } from '../../context/CarritoContext';
 import { formatoPrecio } from '../../utils/formato';
+import Button from '../../components/ui/Button';
 
 export default function Carrito() {
   const {
@@ -19,25 +20,11 @@ export default function Carrito() {
     incrementar,
     disminuir,
     eliminar,
-    vaciar,
   } = useCarrito();
-
-  const pagar = () => {
-    Alert.alert(
-      'Compra realizada',
-      `Completaste tu compra por ${formatoPrecio(total)}. ¡Gracias por comprar en MiniStore!`,
-      [
-        {
-          text: 'OK',
-          onPress: vaciar,
-        },
-      ]
-    );
-  };
 
   if (items.length === 0) {
     return (
-      <View className="flex-1 items-center justify-center bg-neutral-50 p-8">
+      <View className="flex-1 items-center justify-center bg-white p-8">
         <Text className="mb-4 text-5xl">🛒</Text>
         <Text className="text-lg font-semibold text-neutral-900">
           Tu carrito está vacío
@@ -50,7 +37,7 @@ export default function Carrito() {
   }
 
   return (
-    <View className="flex-1 bg-neutral-50">
+    <View className="flex-1 bg-white">
       <FlatList
         data={items}
         keyExtractor={(item) => item.producto.id}
@@ -118,24 +105,23 @@ export default function Carrito() {
       <View className="border-t border-neutral-200 bg-white px-5 pt-4 pb-8">
         <View className="mb-1 flex-row items-center justify-between">
           <Text className="text-sm text-neutral-500">Total</Text>
-          <Text className="text-lg font-bold text-neutral-900">
+          <Text className="text-xl font-bold text-neutral-900">
             {formatoPrecio(total)}
           </Text>
         </View>
+        <Text className="mb-3 text-xs text-oferta">
+          O llévalo hasta en 24 cuotas sin interés
+        </Text>
         <Text className="mb-4 text-xs text-neutral-400">
-          {cantidadTotal} {cantidadTotal === 1 ? 'producto' : 'productos'}{' '}
-          · {items.length} {items.length === 1 ? 'tipo' : 'tipos'}
+          {cantidadTotal} {cantidadTotal === 1 ? 'producto' : 'productos'} ·{' '}
+          {items.length} {items.length === 1 ? 'tipo' : 'tipos'}
         </Text>
 
-        <TouchableOpacity
-          className="h-12 items-center justify-center rounded-xl bg-neutral-900"
-          activeOpacity={0.8}
-          onPress={pagar}
-        >
-          <Text className="text-[15px] font-semibold text-white">
-            Pagar compra
-          </Text>
-        </TouchableOpacity>
+        <Button
+          titulo="Ir a pagar"
+          onPress={() => router.push('/pagar')}
+          icono="card-outline"
+        />
       </View>
     </View>
   );

@@ -5,6 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 import { useCarrito } from '../../context/CarritoContext';
 import { useSesion } from '../../context/SesionContext';
+import DrawerContenido from '../../components/DrawerContenido';
 
 export default function DrawerLayout() {
   const { cantidadTotal } = useCarrito();
@@ -13,14 +14,28 @@ export default function DrawerLayout() {
 
   return (
     <Drawer
+      drawerContent={(props) => <DrawerContenido {...props} />}
       screenOptions={{
-        drawerActiveTintColor: '#007AFF',
+        drawerActiveTintColor: '#D50000',
+        drawerInactiveTintColor: '#525252',
+        drawerActiveBackgroundColor: '#FAFAFA',
         drawerLabelStyle: {
-          fontSize: 16,
+          fontSize: 15,
+          fontWeight: '600',
+        },
+        drawerItemStyle: {
+          borderRadius: 12,
+          marginVertical: 2,
         },
         headerTitleStyle: {
           fontWeight: 'bold',
+          color: '#171717',
         },
+        headerTitleAlign: 'center',
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+        headerShadowVisible: false,
       }}
     >
       <Drawer.Screen
@@ -71,13 +86,13 @@ export default function DrawerLayout() {
         name="carrito"
         options={{
           drawerLabel: ({ color }) => (
-            <View className="flex-row items-center gap-2">
-              <Text style={[styles.label, { color: color as string }]}>
+            <View className="flex-row items-center justify-between flex-1">
+              <Text style={{ fontSize: 15, fontWeight: '600', color }}>
                 Carrito
               </Text>
               {cantidadTotal > 0 && (
-                <View className="h-5 min-w-5 items-center justify-center rounded-full bg-neutral-900 px-1.5">
-                  <Text className="text-[11px] font-semibold text-white">
+                <View className="h-5 min-w-5 items-center justify-center rounded-full bg-oferta px-1.5">
+                  <Text className="text-[11px] font-bold text-white">
                     {cantidadTotal}
                   </Text>
                 </View>
@@ -96,7 +111,9 @@ export default function DrawerLayout() {
         options={{
           drawerLabel: 'Administración',
           title: 'Administración',
-          drawerItemStyle: esAdmin ? undefined : { display: 'none' },
+          drawerItemStyle: esAdmin
+            ? { borderRadius: 12, marginVertical: 2 }
+            : { display: 'none' },
           drawerIcon: ({ color, size }) => (
             <Ionicons name="settings-outline" size={size} color={color} />
           ),
@@ -105,9 +122,3 @@ export default function DrawerLayout() {
     </Drawer>
   );
 }
-
-const styles = {
-  label: {
-    fontSize: 16,
-  },
-};

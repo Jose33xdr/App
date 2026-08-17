@@ -7,6 +7,7 @@ module.exports = {
       colors: {
         danger: '#c0392b',
         success: '#1a7f4b',
+        oferta: '#D50000',
       },
     },
   },

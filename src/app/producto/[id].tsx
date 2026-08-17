@@ -13,6 +13,7 @@ import { formatoPrecio } from '../../utils/formato';
 import { useProductos } from '../../context/ProductosContext';
 import { useCarrito } from '../../context/CarritoContext';
 import { useFavoritos } from '../../context/FavoritosContext';
+import Button from '../../components/ui/Button';
 
 export default function DetalleProducto() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -24,7 +25,7 @@ export default function DetalleProducto() {
 
   if (!producto) {
     return (
-      <View className="flex-1 items-center bg-neutral-50 pt-24">
+      <View className="flex-1 items-center bg-white pt-24">
         <Stack.Screen options={{ title: 'Producto' }} />
         <Text className="mb-2 text-4xl">😕</Text>
         <Text className="text-sm text-neutral-500">
@@ -54,7 +55,7 @@ export default function DetalleProducto() {
 
   return (
     <ScrollView
-      className="flex-1 bg-neutral-50"
+      className="flex-1 bg-white"
       contentContainerStyle={{ padding: 24, paddingBottom: 40 }}
     >
       <Stack.Screen options={{ title: producto.nombre }} />
@@ -67,8 +68,18 @@ export default function DetalleProducto() {
         {producto.nombre}
       </Text>
 
-      <Text className="mt-1.5 mb-1 text-center text-lg font-bold text-neutral-900">
+      <View className="mt-2 mb-1 self-center rounded bg-oferta px-2 py-1">
+        <Text className="text-[10px] font-bold tracking-widest text-white">
+          OFERTA
+        </Text>
+      </View>
+
+      <Text className="mt-2 mb-1 text-center text-2xl font-bold text-neutral-900">
         {formatoPrecio(producto.precio)}
+      </Text>
+
+      <Text className="mb-1 text-center text-[13px] font-semibold text-oferta">
+        O llévalo hasta en 24 cuotas sin interés
       </Text>
 
       <Text
@@ -91,7 +102,7 @@ export default function DetalleProducto() {
         <Ionicons
           name={favorito ? 'heart' : 'heart-outline'}
           size={17}
-          color={favorito ? '#171717' : '#a3a3a3'}
+          color={favorito ? '#D50000' : '#a3a3a3'}
           style={{ marginRight: 6 }}
         />
         <Text className="text-sm font-medium text-neutral-500">
@@ -108,20 +119,12 @@ export default function DetalleProducto() {
         </Text>
       </View>
 
-      <TouchableOpacity
-        className={
-          sinStock
-            ? 'h-12 items-center justify-center rounded-xl bg-neutral-300'
-            : 'h-12 items-center justify-center rounded-xl bg-neutral-900'
-        }
-        activeOpacity={0.8}
+      <Button
+        titulo={sinStock ? 'Agotado' : 'Agregar al carrito'}
         onPress={agregarAlCarrito}
-        disabled={sinStock}
-      >
-        <Text className="text-[15px] font-semibold text-white">
-          {sinStock ? 'Agotado' : 'Agregar al carrito'}
-        </Text>
-      </TouchableOpacity>
+        deshabilitado={sinStock}
+        icono="cart-outline"
+      />
 
       {cantidadTotal > 0 && (
         <TouchableOpacity

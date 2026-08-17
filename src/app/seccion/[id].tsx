@@ -14,7 +14,7 @@ export default function ProductosDeSeccion() {
 
   if (!seccion) {
     return (
-      <View className="flex-1 items-center bg-neutral-50 pt-24">
+      <View className="flex-1 items-center bg-white pt-24">
         <Stack.Screen options={{ title: 'Sección' }} />
         <Text className="mb-2 text-4xl">😕</Text>
         <Text className="text-sm text-neutral-500">

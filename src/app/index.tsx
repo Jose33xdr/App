@@ -7,16 +7,16 @@ import {
   Alert,
   KeyboardAvoidingView,
   Platform,
-  Modal,
 } from 'react-native';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 
 import { useSesion } from '../context/SesionContext';
+import Button from '../components/ui/Button';
 
 const CREDENCIALES_CLIENTE = {
-  correo: 'joseignacioriverarios33@gmail.com',
-  password: 'GTR20200',
+  correo: 'usuario',
+  password: '123',
 };
 
 const CREDENCIALES_ADMIN = {
@@ -28,10 +28,6 @@ export default function Login() {
   const [correo, setCorreo] = useState(CREDENCIALES_CLIENTE.correo);
   const [password, setPassword] = useState(CREDENCIALES_CLIENTE.password);
   const [mostrarPassword, setMostrarPassword] = useState(false);
-  const [modalAdmin, setModalAdmin] = useState(false);
-  const [correoAdmin, setCorreoAdmin] = useState('');
-  const [passwordAdmin, setPasswordAdmin] = useState('');
-  const [mostrarPasswordAdmin, setMostrarPasswordAdmin] = useState(false);
   const { iniciarSesion } = useSesion();
 
   const ingresar = () => {
@@ -66,57 +62,59 @@ export default function Login() {
     router.replace('/(drawer)/home');
   };
 
-  const ingresarAdmin = () => {
-    const correoAdminLimpio = correoAdmin.trim().toLowerCase();
-
-    if (
-      correoAdminLimpio === CREDENCIALES_ADMIN.correo &&
-      passwordAdmin === CREDENCIALES_ADMIN.password
-    ) {
-      iniciarSesion('admin');
-      setModalAdmin(false);
-      setCorreoAdmin('');
-      setPasswordAdmin('');
-      router.replace('/(drawer)/admin');
-      return;
-    }
-
-    Alert.alert(
-      'Acceso denegado',
-      'Credenciales incorrectas. Solo el administrador puede entrar.'
-    );
-    setPasswordAdmin('');
-  };
-
   return (
-    <View className="flex-1 bg-neutral-50">
-      <KeyboardAvoidingView
-        className="flex-1 justify-center px-6"
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-      >
-        <Text className="mb-2 text-center text-3xl font-bold tracking-tight text-neutral-900">
-          MiniStore
+    <KeyboardAvoidingView
+      className="flex-1 items-center justify-center bg-white px-6"
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+    >
+      <View className="w-full max-w-[400px]">
+        <View className="mb-8 items-center">
+          <View className="mb-4 h-14 w-14 items-center justify-center rounded-2xl bg-oferta">
+            <Ionicons name="cube" size={30} color="#fff" />
+          </View>
+          <Text className="text-3xl font-bold tracking-tight text-neutral-900">
+            MiniStore
+          </Text>
+          <Text className="mt-1.5 text-[15px] text-neutral-400">
+            Ingresa a tu cuenta
+          </Text>
+        </View>
+
+        <Text className="mb-1.5 text-xs font-bold uppercase tracking-widest text-neutral-400">
+          Correo electrónico
         </Text>
-
-        <Text className="mt-2 mb-10 text-center text-neutral-500">
-          Ingresa para continuar
-        </Text>
-
-        <TextInput
-          className="mb-3 h-12 rounded-xl border border-neutral-200 bg-white px-4 text-[15px] text-neutral-900"
-          placeholder="Correo electrónico"
-          placeholderTextColor="#a3a3a3"
-          keyboardType="email-address"
-          autoCapitalize="none"
-          autoCorrect={false}
-          value={correo}
-          onChangeText={setCorreo}
-        />
-
-        <View className="mb-6 flex-row items-center rounded-xl border border-neutral-200 bg-white">
+        <View className="mb-3 flex-row items-center rounded-xl border border-neutral-200 bg-neutral-50">
+          <Ionicons
+            name="mail-outline"
+            size={18}
+            color="#a3a3a3"
+            style={{ marginLeft: 14 }}
+          />
           <TextInput
-            className="h-12 flex-1 px-4 text-[15px] text-neutral-900"
-            placeholder="Contraseña"
+            className="h-12 flex-1 px-3.5 text-[15px] text-neutral-900"
+            placeholder="tucorreo@ejemplo.com"
+            placeholderTextColor="#a3a3a3"
+            keyboardType="email-address"
+            autoCapitalize="none"
+            autoCorrect={false}
+            value={correo}
+            onChangeText={setCorreo}
+          />
+        </View>
+
+        <Text className="mb-1.5 text-xs font-bold uppercase tracking-widest text-neutral-400">
+          Contraseña
+        </Text>
+        <View className="mb-6 flex-row items-center rounded-xl border border-neutral-200 bg-neutral-50">
+          <Ionicons
+            name="lock-closed-outline"
+            size={18}
+            color="#a3a3a3"
+            style={{ marginLeft: 14 }}
+          />
+          <TextInput
+            className="h-12 flex-1 px-3.5 text-[15px] text-neutral-900"
+            placeholder="••••••••"
             placeholderTextColor="#a3a3a3"
             secureTextEntry={!mostrarPassword}
             value={password}
@@ -130,128 +128,32 @@ export default function Login() {
               mostrarPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'
             }
           >
-            <Text className="text-sm font-medium text-neutral-400">
-              {mostrarPassword ? 'Ocultar' : 'Mostrar'}
-            </Text>
+            <Ionicons
+              name={mostrarPassword ? 'eye-off-outline' : 'eye-outline'}
+              size={19}
+              color="#a3a3a3"
+            />
           </TouchableOpacity>
         </View>
 
-        <TouchableOpacity
-          className="h-12 items-center justify-center rounded-xl bg-neutral-900"
+        <Button
+          titulo="Ingresar"
           onPress={ingresar}
-          activeOpacity={0.8}
-        >
-          <Text className="text-[15px] font-semibold text-white">
-            Ingresar
+          icono="log-in-outline"
+        />
+
+        <View className="mt-8 flex-row items-center gap-3">
+          <View className="h-px flex-1 bg-neutral-200" />
+          <Text className="text-[11px] font-medium uppercase tracking-widest text-neutral-400">
+            Pago seguro
           </Text>
-        </TouchableOpacity>
-
-        <Text className="mt-6 text-center text-xs text-neutral-400">
-          Cliente: credenciales precargadas · Acceso Administrador: botón 💬
-        </Text>
-      </KeyboardAvoidingView>
-
-      <TouchableOpacity
-        className="absolute bottom-6 right-6 h-14 w-14 items-center justify-center rounded-full bg-neutral-900"
-        activeOpacity={0.85}
-        onPress={() => setModalAdmin(true)}
-        accessibilityLabel="Acceso administrador"
-      >
-        <Ionicons name="chatbubble-ellipses" size={26} color="#fff" />
-      </TouchableOpacity>
-
-      <Modal
-        visible={modalAdmin}
-        animationType="slide"
-        transparent
-        onRequestClose={() => setModalAdmin(false)}
-      >
-        <View className="flex-1 justify-end bg-black/40">
-          <View className="rounded-t-3xl bg-white p-6 pb-10">
-            <View className="mb-4 h-1.5 w-10 self-center rounded-full bg-neutral-200" />
-
-            <View className="mb-4 flex-row items-center gap-3">
-              <View className="h-11 w-11 items-center justify-center rounded-xl bg-neutral-100">
-                <Ionicons name="lock-closed" size={20} color="#404040" />
-              </View>
-              <View className="flex-1">
-                <Text className="text-lg font-bold tracking-tight text-neutral-900">
-                  Acceso administrador
-                </Text>
-                <Text className="text-xs text-neutral-400">
-                  Ingresa tus credenciales para abrir el panel de control
-                </Text>
-              </View>
-            </View>
-
-            <View className="mb-3 flex-row items-center rounded-xl border border-neutral-200 bg-neutral-50">
-              <TextInput
-                className="h-12 flex-1 px-4 text-[15px] text-neutral-900"
-                placeholder="Correo (admin)"
-                placeholderTextColor="#a3a3a3"
-                value={correoAdmin}
-                onChangeText={setCorreoAdmin}
-                autoCapitalize="none"
-                autoCorrect={false}
-                keyboardType="email-address"
-              />
-            </View>
-
-            <View className="mb-6 flex-row items-center rounded-xl border border-neutral-200 bg-neutral-50">
-              <TextInput
-                className="h-12 flex-1 px-4 text-[15px] text-neutral-900"
-                placeholder="Contraseña"
-                placeholderTextColor="#a3a3a3"
-                secureTextEntry={!mostrarPasswordAdmin}
-                value={passwordAdmin}
-                onChangeText={setPasswordAdmin}
-                autoCapitalize="none"
-                autoCorrect={false}
-              />
-              <TouchableOpacity
-                onPress={() => setMostrarPasswordAdmin((v) => !v)}
-                activeOpacity={0.7}
-                className="h-full justify-center px-4"
-                accessibilityLabel={
-                  mostrarPasswordAdmin
-                    ? 'Ocultar contraseña'
-                    : 'Mostrar contraseña'
-                }
-              >
-                <Text className="text-sm font-medium text-neutral-400">
-                  {mostrarPasswordAdmin ? 'Ocultar' : 'Mostrar'}
-                </Text>
-              </TouchableOpacity>
-            </View>
-
-            <View className="flex-row gap-3">
-              <TouchableOpacity
-                className="h-12 flex-1 items-center justify-center rounded-xl border border-neutral-200 bg-white"
-                activeOpacity={0.7}
-                onPress={() => {
-                  setModalAdmin(false);
-                  setCorreoAdmin('');
-                  setPasswordAdmin('');
-                }}
-              >
-                <Text className="text-[15px] font-semibold text-neutral-600">
-                  Cancelar
-                </Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                className="h-12 flex-1 items-center justify-center rounded-xl bg-neutral-900"
-                activeOpacity={0.8}
-                onPress={ingresarAdmin}
-              >
-                <Text className="text-[15px] font-semibold text-white">
-                  Entrar
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </View>
+          <View className="h-px flex-1 bg-neutral-200" />
         </View>
-      </Modal>
-    </View>
+
+        <Text className="mt-4 text-center text-[11px] leading-4 text-neutral-300">
+          Al ingresar aceptas los términos y condiciones de MiniStore.
+        </Text>
+      </View>
+    </KeyboardAvoidingView>
   );
 }

@@ -10,6 +10,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 import type { Producto } from '../data/productos';
 import ProductCard from './ProductCard';
+import { SeccionTitulo } from './ui/Button';
 
 interface ListaProductosProps {
   titulo: string;
@@ -41,15 +42,16 @@ export default function ListaProductos({
   }, [busqueda, productos]);
 
   return (
-    <View className="flex-1 bg-neutral-50 p-5">
+    <View className="flex-1 bg-white p-5">
+      <SeccionTitulo texto="MiniStore" />
       <Text className="text-2xl font-bold tracking-tight text-neutral-900">
         {titulo}
       </Text>
-      <Text className="mt-1 mb-5 text-sm text-neutral-500">
+      <Text className="mt-1 mb-5 text-sm text-neutral-400">
         {subtitulo}
       </Text>
 
-      <View className="mb-4 flex-row items-center rounded-xl bg-neutral-200/60 px-3.5">
+      <View className="mb-4 flex-row items-center rounded-xl border border-neutral-200 bg-neutral-50 px-3.5">
         <Ionicons
           name="search"
           size={18}
@@ -83,7 +85,9 @@ export default function ListaProductos({
         keyboardShouldPersistTaps="handled"
         ListEmptyComponent={
           <View className="items-center py-20">
-            <Text className="mb-3 text-4xl">{vacioEmoji}</Text>
+            <View className="mb-4 h-16 w-16 items-center justify-center rounded-full bg-neutral-100">
+              <Text className="text-3xl">{vacioEmoji}</Text>
+            </View>
             <Text className="text-base font-semibold text-neutral-900">
               {vacioTitulo}
             </Text>
