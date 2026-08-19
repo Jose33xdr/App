@@ -107,6 +107,28 @@ export default function DrawerLayout() {
       />
 
       <Drawer.Screen
+        name="pedidos"
+        options={{
+          drawerLabel: 'Mis pedidos',
+          title: 'Mis pedidos',
+          drawerIcon: ({ color, size }) => (
+            <Ionicons name="receipt-outline" size={size} color={color} />
+          ),
+        }}
+      />
+
+      <Drawer.Screen
+        name="perfil"
+        options={{
+          drawerLabel: 'Mi cuenta',
+          title: 'Mi cuenta',
+          drawerIcon: ({ color, size }) => (
+            <Ionicons name="person-outline" size={size} color={color} />
+          ),
+        }}
+      />
+
+      <Drawer.Screen
         name="admin"
         options={{
           drawerLabel: 'Administración',

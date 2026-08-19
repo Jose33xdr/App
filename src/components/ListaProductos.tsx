@@ -42,7 +42,7 @@ export default function ListaProductos({
   }, [busqueda, productos]);
 
   return (
-    <View className="flex-1 bg-white p-5">
+    <View className="flex-1 bg-neutral-50 p-5">
       <SeccionTitulo texto="MiniStore" />
       <Text className="text-2xl font-bold tracking-tight text-neutral-900">
         {titulo}
@@ -51,7 +51,7 @@ export default function ListaProductos({
         {subtitulo}
       </Text>
 
-      <View className="mb-4 flex-row items-center rounded-xl border border-neutral-200 bg-neutral-50 px-3.5">
+      <View className="mb-4 flex-row items-center rounded-xl border border-neutral-200 bg-white px-3.5">
         <Ionicons
           name="search"
           size={18}

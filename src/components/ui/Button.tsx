@@ -1,5 +1,5 @@
-import React from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
+import React, { useRef } from 'react';
+import { Animated, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 type Variante = 'primario' | 'secundario' | 'peligro' | 'claro';
@@ -52,23 +52,37 @@ export default function Button({
 }: ButtonProps) {
   const estilos = ESTILOS[variante];
   const alto = tamano === 'lg' ? 'h-12' : 'h-10';
+  const escala = useRef(new Animated.Value(1)).current;
+
+  const animarEscala = (valor: number) => {
+    Animated.spring(escala, {
+      toValue: valor,
+      useNativeDriver: true,
+      speed: 50,
+      bounciness: 0,
+    }).start();
+  };
 
   return (
-    <TouchableOpacity
-      className={`${alto} flex-row items-center justify-center gap-2 rounded-xl ${estilos.contenedor} ${
-        deshabilitado ? 'opacity-40' : ''
-      } ${className}`}
-      activeOpacity={0.85}
-      onPress={onPress}
-      disabled={deshabilitado}
-    >
-      {icono && (
-        <Ionicons name={icono} size={18} color={estilos.icono} />
-      )}
-      <Text className={`text-[15px] font-semibold ${estilos.texto}`}>
-        {titulo}
-      </Text>
-    </TouchableOpacity>
+    <Animated.View style={{ transform: [{ scale: escala }] }}>
+      <TouchableOpacity
+        className={`${alto} flex-row items-center justify-center gap-2 rounded-xl ${estilos.contenedor} ${
+          deshabilitado ? 'opacity-40' : ''
+        } ${className}`}
+        activeOpacity={0.85}
+        onPressIn={() => animarEscala(0.97)}
+        onPressOut={() => animarEscala(1)}
+        onPress={onPress}
+        disabled={deshabilitado}
+      >
+        {icono && (
+          <Ionicons name={icono} size={18} color={estilos.icono} />
+        )}
+        <Text className={`text-[15px] font-semibold ${estilos.texto}`}>
+          {titulo}
+        </Text>
+      </TouchableOpacity>
+    </Animated.View>
   );
 }
 

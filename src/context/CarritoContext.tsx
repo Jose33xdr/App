@@ -16,7 +16,7 @@ interface CarritoContextValue {
   items: ItemCarrito[];
   total: number;
   cantidadTotal: number;
-  agregar: (producto: Producto) => void;
+  agregar: (producto: Producto, cantidad?: number) => void;
   incrementar: (id: string) => void;
   disminuir: (id: string) => void;
   eliminar: (id: string) => void;
@@ -34,7 +34,7 @@ export function CarritoProvider({
 }) {
   const [items, setItems] = useState<ItemCarrito[]>([]);
 
-  const agregar = (producto: Producto) => {
+  const agregar = (producto: Producto, cantidad = 1) => {
     setItems((prev) => {
       const existente = prev.find(
         (item) => item.producto.id === producto.id
@@ -42,11 +42,11 @@ export function CarritoProvider({
       if (existente) {
         return prev.map((item) =>
           item.producto.id === producto.id
-            ? { ...item, cantidad: item.cantidad + 1 }
+            ? { ...item, cantidad: item.cantidad + cantidad }
             : item
         );
       }
-      return [...prev, { producto, cantidad: 1 }];
+      return [...prev, { producto, cantidad }];
     });
   };
 

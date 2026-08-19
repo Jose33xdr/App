@@ -133,8 +133,42 @@ export default function Admin() {
     );
   };
 
+  const stockBajo = productos.filter((p) => p.stock <= 5);
+  const valorInventario = productos.reduce(
+    (acc, p) => acc + p.precio * p.stock,
+    0
+  );
+
+  const estadisticas = [
+    {
+      emoji: '📦',
+      titulo: 'Productos',
+      valor: String(productos.length),
+      detalle: 'en el catálogo',
+    },
+    {
+      emoji: '⚠️',
+      titulo: 'Stock bajo',
+      valor: String(stockBajo.length),
+      detalle: 'con 5 o menos unidades',
+      alerta: stockBajo.length > 0,
+    },
+    {
+      emoji: '🗂️',
+      titulo: 'Secciones',
+      valor: String(secciones.length),
+      detalle: 'activas',
+    },
+    {
+      emoji: '💰',
+      titulo: 'Valor inventario',
+      valor: formatoPrecio(valorInventario),
+      detalle: 'a precio de venta',
+    },
+  ];
+
   return (
-    <View className="flex-1 bg-white p-5">
+    <View className="flex-1 bg-neutral-50 p-5">
       <SeccionTitulo texto="MiniStore" />
       <Text className="text-2xl font-bold tracking-tight text-neutral-900">
         Panel de control
@@ -142,6 +176,30 @@ export default function Admin() {
       <Text className="mt-1 mb-5 text-sm text-neutral-400">
         Gestiona el catálogo público completo
       </Text>
+
+      <View className="mb-4 flex-row flex-wrap gap-3">
+        {estadisticas.map((est) => (
+          <View
+            key={est.titulo}
+            className="w-[48%] rounded-2xl border border-neutral-200 bg-white p-4"
+          >
+            <Text className="mb-1.5 text-xl">{est.emoji}</Text>
+            <Text className="text-xs font-semibold uppercase tracking-widest text-neutral-400">
+              {est.titulo}
+            </Text>
+            <Text
+              className={`mt-0.5 text-xl font-bold ${
+                est.alerta ? 'text-oferta' : 'text-neutral-900'
+              }`}
+            >
+              {est.valor}
+            </Text>
+            <Text className="mt-0.5 text-[11px] text-neutral-400">
+              {est.detalle}
+            </Text>
+          </View>
+        ))}
+      </View>
 
       <View className="mb-4 flex-row rounded-xl bg-neutral-200/60 p-1">
         <TouchableOpacity

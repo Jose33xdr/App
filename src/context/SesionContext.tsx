@@ -9,7 +9,8 @@ export type Rol = 'admin' | 'cliente';
 
 interface SesionContextValue {
   rol: Rol | null;
-  iniciarSesion: (rol: Rol) => void;
+  correo: string | null;
+  iniciarSesion: (rol: Rol, correo: string) => void;
   cerrarSesion: () => void;
 }
 
@@ -23,14 +24,22 @@ export function SesionProvider({
   children: React.ReactNode;
 }) {
   const [rol, setRol] = useState<Rol | null>(null);
+  const [correo, setCorreo] = useState<string | null>(null);
 
   const value = useMemo(
     () => ({
       rol,
-      iniciarSesion: setRol,
-      cerrarSesion: () => setRol(null),
+      correo,
+      iniciarSesion: (rol: Rol, correo: string) => {
+        setRol(rol);
+        setCorreo(correo);
+      },
+      cerrarSesion: () => {
+        setRol(null);
+        setCorreo(null);
+      },
     }),
-    [rol]
+    [rol, correo]
   );
 
   return (

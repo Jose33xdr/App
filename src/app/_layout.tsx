@@ -6,6 +6,7 @@ import { ProductosProvider } from '../context/ProductosContext';
 import { SesionProvider } from '../context/SesionContext';
 import { CarritoProvider } from '../context/CarritoContext';
 import { FavoritosProvider } from '../context/FavoritosContext';
+import { PedidosProvider } from '../context/PedidosContext';
 
 export default function RootLayout() {
   return (
@@ -13,21 +14,23 @@ export default function RootLayout() {
       <SesionProvider>
         <CarritoProvider>
           <FavoritosProvider>
-            <Stack>
-              <Stack.Screen
-                name="index"
-                options={{
-                  headerShown: false,
-                }}
-              />
+            <PedidosProvider>
+              <Stack>
+                <Stack.Screen
+                  name="index"
+                  options={{
+                    headerShown: false,
+                  }}
+                />
 
-              <Stack.Screen
-                name="(drawer)"
-                options={{
-                  headerShown: false,
-                }}
-              />
-            </Stack>
+                <Stack.Screen
+                  name="(drawer)"
+                  options={{
+                    headerShown: false,
+                  }}
+                />
+              </Stack>
+            </PedidosProvider>
           </FavoritosProvider>
         </CarritoProvider>
       </SesionProvider>

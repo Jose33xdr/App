@@ -20,7 +20,7 @@ export default function DrawerContenido(props: any) {
       <View className="border-b border-neutral-100 px-5 pb-5 pt-12">
         <View className="flex-row items-center gap-3">
           <View className="h-11 w-11 items-center justify-center rounded-xl bg-oferta">
-            <Ionicons name="cube" size={22} color="#fff" />
+            <Text className="text-lg font-black text-white">M</Text>
           </View>
           <View>
             <Text className="text-lg font-bold tracking-tight text-neutral-900">

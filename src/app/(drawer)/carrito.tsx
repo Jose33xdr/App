@@ -24,7 +24,7 @@ export default function Carrito() {
 
   if (items.length === 0) {
     return (
-      <View className="flex-1 items-center justify-center bg-white p-8">
+      <View className="flex-1 items-center justify-center bg-neutral-50 p-8">
         <Text className="mb-4 text-5xl">🛒</Text>
         <Text className="text-lg font-semibold text-neutral-900">
           Tu carrito está vacío
@@ -37,7 +37,7 @@ export default function Carrito() {
   }
 
   return (
-    <View className="flex-1 bg-white">
+    <View className="flex-1 bg-neutral-50">
       <FlatList
         data={items}
         keyExtractor={(item) => item.producto.id}

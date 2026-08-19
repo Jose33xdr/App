@@ -11,6 +11,7 @@ import { router, Stack } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 
 import { useCarrito } from '../context/CarritoContext';
+import { usePedidos } from '../context/PedidosContext';
 import { formatoPrecio } from '../utils/formato';
 import Button from '../components/ui/Button';
 
@@ -44,6 +45,7 @@ const METODOS: {
 
 export default function Pagar() {
   const { items, total, cantidadTotal, vaciar } = useCarrito();
+  const { agregarPedido } = usePedidos();
 
   const [metodo, setMetodo] = useState<MetodoPago>('tarjeta');
   const [numero, setNumero] = useState('');
@@ -101,12 +103,19 @@ export default function Pagar() {
     }
     setTotalPagado(total);
     setPagado(true);
+    agregarPedido({
+      id: ordenId,
+      fecha: new Date().toISOString(),
+      total,
+      metodoPago: metodo,
+      items: [...items],
+    });
     vaciar();
   };
 
   if (pagado) {
     return (
-      <View className="flex-1 items-center justify-center bg-white p-8">
+      <View className="flex-1 items-center justify-center bg-neutral-50 p-8">
         <Stack.Screen options={{ title: 'Pago exitoso' }} />
         <View className="mb-5 h-20 w-20 items-center justify-center rounded-full bg-success">
           <Ionicons name="checkmark" size={40} color="#fff" />
@@ -131,26 +140,33 @@ export default function Pagar() {
           onPress={() => router.replace('/(drawer)/home')}
           className="mt-6 w-full"
         />
+        <Button
+          titulo="Ver mis pedidos"
+          variante="secundario"
+          icono="receipt-outline"
+          onPress={() => router.replace('/(drawer)/pedidos')}
+          className="mt-3 w-full"
+        />
       </View>
     );
   }
 
   return (
     <ScrollView
-      className="flex-1 bg-white"
+      className="flex-1 bg-neutral-50"
       contentContainerStyle={{ padding: 20, paddingBottom: 40 }}
       keyboardShouldPersistTaps="handled"
     >
       <Stack.Screen options={{ title: 'Pagar compra' }} />
 
-      <View className="mb-6 rounded-2xl bg-neutral-900 p-5">
-        <Text className="text-xs font-semibold uppercase tracking-widest text-neutral-400">
+      <View className="mb-6 rounded-2xl border border-neutral-200 bg-white p-5">
+        <Text className="text-xs font-semibold uppercase tracking-widest text-neutral-500">
           Total a pagar
         </Text>
-        <Text className="mt-1 text-3xl font-bold tracking-tight text-white">
+        <Text className="mt-1 text-3xl font-bold tracking-tight text-neutral-900">
           {formatoPrecio(total)}
         </Text>
-        <Text className="mt-1 text-sm text-neutral-400">
+        <Text className="mt-1 text-sm text-neutral-500">
           {cantidadTotal} {cantidadTotal === 1 ? 'producto' : 'productos'} ·{' '}
           {items.length} {items.length === 1 ? 'tipo' : 'tipos'}
         </Text>
@@ -167,7 +183,7 @@ export default function Pagar() {
             key={m.id}
             className={`mb-3 flex-row items-center rounded-2xl border p-4 ${
               activo
-                ? 'border-neutral-900 bg-neutral-50'
+                ? 'border-neutral-900 bg-neutral-100'
                 : 'border-neutral-200 bg-white'
             }`}
             activeOpacity={0.7}
@@ -211,7 +227,7 @@ export default function Pagar() {
             Número de tarjeta
           </Text>
           <TextInput
-            className="mb-4 h-12 rounded-xl border border-neutral-200 bg-neutral-50 px-4 text-[15px] tracking-widest text-neutral-900"
+            className="mb-4 h-12 rounded-xl border border-neutral-200 bg-white px-4 text-[15px] tracking-widest text-neutral-900"
             placeholder="0000 0000 0000 0000"
             placeholderTextColor="#a3a3a3"
             keyboardType="numeric"
@@ -223,7 +239,7 @@ export default function Pagar() {
             Nombre del titular
           </Text>
           <TextInput
-            className="mb-4 h-12 rounded-xl border border-neutral-200 bg-neutral-50 px-4 text-[15px] text-neutral-900"
+            className="mb-4 h-12 rounded-xl border border-neutral-200 bg-white px-4 text-[15px] text-neutral-900"
             placeholder="Como aparece en la tarjeta"
             placeholderTextColor="#a3a3a3"
             autoCapitalize="words"
@@ -237,7 +253,7 @@ export default function Pagar() {
                 Vencimiento
               </Text>
               <TextInput
-                className="h-12 rounded-xl border border-neutral-200 bg-neutral-50 px-4 text-[15px] text-neutral-900"
+                className="h-12 rounded-xl border border-neutral-200 bg-white px-4 text-[15px] text-neutral-900"
                 placeholder="MM/AA"
                 placeholderTextColor="#a3a3a3"
                 keyboardType="numeric"
@@ -251,7 +267,7 @@ export default function Pagar() {
                 CVV
               </Text>
               <TextInput
-                className="h-12 rounded-xl border border-neutral-200 bg-neutral-50 px-4 text-[15px] text-neutral-900"
+                className="h-12 rounded-xl border border-neutral-200 bg-white px-4 text-[15px] text-neutral-900"
                 placeholder="123"
                 placeholderTextColor="#a3a3a3"
                 keyboardType="numeric"

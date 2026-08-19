@@ -42,7 +42,7 @@ export default function Login() {
       correoLimpio === CREDENCIALES_ADMIN.correo &&
       password === CREDENCIALES_ADMIN.password
     ) {
-      iniciarSesion('admin');
+      iniciarSesion('admin', CREDENCIALES_ADMIN.correo);
       router.replace('/(drawer)/home');
       return;
     }
@@ -58,23 +58,25 @@ export default function Login() {
       return;
     }
 
-    iniciarSesion('cliente');
+    iniciarSesion('cliente', CREDENCIALES_CLIENTE.correo);
     router.replace('/(drawer)/home');
   };
 
   return (
     <KeyboardAvoidingView
-      className="flex-1 items-center justify-center bg-white px-6"
+      className="flex-1 items-center justify-center bg-neutral-50 px-6"
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
     >
       <View className="w-full max-w-[400px]">
         <View className="mb-8 items-center">
-          <View className="mb-4 h-14 w-14 items-center justify-center rounded-2xl bg-oferta">
-            <Ionicons name="cube" size={30} color="#fff" />
+          <View className="mb-4 flex-row items-center">
+            <View className="h-11 w-11 items-center justify-center rounded-lg bg-oferta">
+              <Text className="text-xl font-black text-white">M</Text>
+            </View>
+            <Text className="text-3xl font-black tracking-tight text-neutral-900">
+              MiniStore
+            </Text>
           </View>
-          <Text className="text-3xl font-bold tracking-tight text-neutral-900">
-            MiniStore
-          </Text>
           <Text className="mt-1.5 text-[15px] text-neutral-400">
             Ingresa a tu cuenta
           </Text>
@@ -83,7 +85,7 @@ export default function Login() {
         <Text className="mb-1.5 text-xs font-bold uppercase tracking-widest text-neutral-400">
           Correo electrónico
         </Text>
-        <View className="mb-3 flex-row items-center rounded-xl border border-neutral-200 bg-neutral-50">
+        <View className="mb-3 flex-row items-center rounded-xl border border-neutral-200 bg-white">
           <Ionicons
             name="mail-outline"
             size={18}
@@ -105,7 +107,7 @@ export default function Login() {
         <Text className="mb-1.5 text-xs font-bold uppercase tracking-widest text-neutral-400">
           Contraseña
         </Text>
-        <View className="mb-6 flex-row items-center rounded-xl border border-neutral-200 bg-neutral-50">
+        <View className="mb-6 flex-row items-center rounded-xl border border-neutral-200 bg-white">
           <Ionicons
             name="lock-closed-outline"
             size={18}
